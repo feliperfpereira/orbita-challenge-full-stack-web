@@ -32,10 +32,35 @@ public class StudentsController : ControllerBase
         return Ok(_mapper.Map<IEnumerable<StudentReadDto>>(students));
     }
 
-    [HttpGet("{RA}")]
-    public async Task<IActionResult> GetByRA(int RA)
+    [HttpGet("ra/{RA}")]
+    public async Task<IActionResult> GetByRA(string RA)
     {
         var student = await _studentRepo.GetStudentByRA(RA);
+
+        if (student != null)
+        {
+            return Ok(_mapper.Map<StudentReadDto>(student));
+        }
+        return NotFound();
+    }
+
+
+    [HttpGet("search/{value}")]
+    public async Task<IActionResult> GetByValue(string value)
+    {
+        var students = await _studentRepo.GetStudentByValue(value);
+
+        if (students != null)
+        {
+            return Ok(_mapper.Map<IEnumerable<StudentReadDto>>(students));
+        }
+        return NotFound();
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetByid(int id)
+    {
+        var student = await _studentRepo.GetStudentById(id);
 
         if (student != null)
         {
@@ -60,11 +85,11 @@ public class StudentsController : ControllerBase
     }
 
 
-    [HttpPut("{RA}")]
-    public async Task<IActionResult> updateStudent(int RA, StudentUpdateDto studentUpdateDto)
+    [HttpPut("{id}")]
+    public async Task<IActionResult> updateStudent(int id, StudentUpdateDto studentUpdateDto)
     {
 
-        var student = await _studentRepo.GetStudentByRA(RA);
+        var student = await _studentRepo.GetStudentById(id);
         if (student == null)
         {
             return NotFound();
@@ -78,11 +103,11 @@ public class StudentsController : ControllerBase
     }
 
 
-    [HttpDelete("{RA}")]
-    public async Task<IActionResult> deleteStudent(int RA)
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> deleteStudent(int id)
     {
 
-        var student = await _studentRepo.GetStudentByRA(RA);
+        var student = await _studentRepo.GetStudentById(id);
         if (student == null)
         {
             return NotFound();

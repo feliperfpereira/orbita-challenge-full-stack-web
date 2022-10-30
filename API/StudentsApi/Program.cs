@@ -7,6 +7,19 @@ using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:8080","http://localhost:8081")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();;
+        });
+});
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -20,6 +33,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
     var services = builder.Services;
     services.AddControllers();
 }
+builder.Services.AddCors();
 
 var app = builder.Build();
 
@@ -29,5 +43,7 @@ var app = builder.Build();
 }
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseCors();
 
 app.Run();

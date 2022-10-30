@@ -37,9 +37,24 @@ namespace StudentsApi.Data
             return await _context.Students.ToListAsync();
         }
 
-        public async Task<Student?> GetStudentByRA(int ra)
+        public async Task<Student?> GetStudentByRA(string? ra)
         {
             return await _context.Students.FirstOrDefaultAsync(c => c.RA == ra);
+        }
+        
+        public async Task<IEnumerable<Student>> GetStudentByValue(string value)
+        {
+            return await _context.Students.Where(p => 
+                p.CPF!.ToLower().Contains(value) || 
+                p.Email!.ToLower().Contains(value) ||
+                p.Nome!.ToLower().Contains(value) ||
+                p.RA!.ToLower().Contains(value)
+                ).ToListAsync();
+        }
+
+        public async Task<Student?> GetStudentById(int id)
+        {
+            return await _context.Students.FirstOrDefaultAsync(c => c.id == id);
         }
 
         public async Task SaveChanges()

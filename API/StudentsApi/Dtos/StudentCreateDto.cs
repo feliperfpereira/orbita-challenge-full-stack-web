@@ -6,6 +6,8 @@ namespace StudentsApi.Dtos
     public class StudentCreateDto
     {
         [Required]
+        public string? RA { get; set; }
+        [Required]
         public string? Nome { get; set; }
 
         [Required]
