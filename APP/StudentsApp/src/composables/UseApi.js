@@ -31,9 +31,9 @@ export default function useApi (url) {
     }
   }
 
-  const post = async (form) => {
+  const student = async (form) => {
     try {
-      const { data } = await api.post(url, form)
+      const { data } = await api.student(url, form)
       return data
     } catch (error) {
       debugger
@@ -62,7 +62,7 @@ export default function useApi (url) {
 
   return {
     list,
-    post,
+    student,
     update,
     remove,
     getById,

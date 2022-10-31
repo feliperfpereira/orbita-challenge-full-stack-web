@@ -11,20 +11,20 @@
       </div>
 
       <div class="pull-right">
-        <q-btn color="primary" class="pull-right" style="height:56px ;" label="Cadastrar Aluno" :to="{ name: 'formPost' }" />
+        <q-btn color="primary" class="pull-right" style="height:56px ;" label="Cadastrar Aluno" :to="{ name: 'formStudent' }" />
       </div>
 
 
     </div>
-    <q-table :rows="posts" :columns="columns" row-key="name">
+    <q-table :rows="students" :columns="columns" row-key="name">
       <!-- <template v-slot:top>
         <span class="text-h5">Alunos</span>
         <q-space />
       </template> -->
       <template v-slot:body-cell-actions="props">
         <q-td :props="props" class="q-gutter-sm">
-          <q-btn icon="edit" color="info" dense size="sm" @click="handleEditPost(props.row.id)" />
-          <q-btn icon="delete" color="negative" dense size="sm" @click="handleDeletePost(props.row.id)" />
+          <q-btn icon="edit" color="info" dense size="sm" @click="handleEditStudent(props.row.id)" />
+          <q-btn icon="delete" color="negative" dense size="sm" @click="handleDeleteStudent(props.row.id)" />
         </q-td>
       </template>
     </q-table>
@@ -33,15 +33,15 @@
 
 <script>
 import { defineComponent, ref, onMounted } from 'vue'
-import postsService from 'src/services/posts'
+import studentsService from 'src/services/students'
 import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'IndexPage',
   setup() {
-    const posts = ref([])
-    const { list, remove, searchByValue } = postsService()
+    const students = ref([])
+    const { list, remove, searchByValue } = studentsService()
     const columns = [
       { name: 'ra', field: 'ra', label: 'RA', sortable: true, align: 'left' },
       { name: 'nome', field: 'nome', label: 'Nome', sortable: true, align: 'left' },
@@ -53,13 +53,13 @@ export default defineComponent({
     let textSearch;
 
     onMounted(() => {
-      getPosts()
+      getStudents()
     })
 
-    const getPosts = async () => {
+    const getStudents = async () => {
       try {
         const data = await list()
-        posts.value = data
+        students.value = data
       } catch (error) {
         console.error(error)
       }
@@ -75,39 +75,39 @@ export default defineComponent({
           data = await list()
         }
 
-        posts.value = data
+        students.value = data
       } catch (error) {
         console.error(error)
       }
     }
 
 
-    const handleDeletePost = async (id) => {
+    const handleDeleteStudent = async (id) => {
       try {
         $q.dialog({
           title: 'Deletar',
-          message: 'Deseja deletar este post ?',
+          message: 'Deseja deletar este Aluno ?',
           cancel: true,
           persistent: true
         }).onOk(async () => {
           await remove(id)
           $q.notify({ message: 'Apagado com sucesso', icon: 'check', color: 'positive' })
-          await getPosts()
+          await getStudents()
         })
       } catch (error) {
-        $q.notify({ message: 'Erro ao apagar post', icon: 'times', color: 'negative' })
+        $q.notify({ message: 'Erro ao apagar Aluno', icon: 'times', color: 'negative' })
       }
     }
 
-    const handleEditPost = (id) => {
-      router.push({ name: 'formPost', params: { id } })
+    const handleEditStudent = (id) => {
+      router.push({ name: 'formStudent', params: { id } })
     }
 
     return {
-      posts,
+      students,
       columns,
-      handleDeletePost,
-      handleEditPost,
+      handleDeleteStudent,
+      handleEditStudent,
       handleSearch,
       textSearch
     }

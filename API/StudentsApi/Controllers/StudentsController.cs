@@ -1,4 +1,5 @@
 using AutoMapper;
+using System.ComponentModel.DataAnnotations;
 
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -74,6 +75,13 @@ public class StudentsController : ControllerBase
     public async Task<IActionResult> createStudent(StudentCreateDto studentCreateDto)
     {
 
+        var context = new ValidationContext(studentCreateDto, serviceProvider: null, items: null);
+        var results = new List<ValidationResult>();
+
+        var isValid = Validator.TryValidateObject(studentCreateDto, context, results, true);
+        if (!isValid)
+            return BadRequest();
+
         var studentModel = _mapper.Map<Student>(studentCreateDto);
 
         await _studentRepo.CreateStudent(studentModel);
@@ -88,6 +96,14 @@ public class StudentsController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> updateStudent(int id, StudentUpdateDto studentUpdateDto)
     {
+
+        var context = new ValidationContext(studentUpdateDto, serviceProvider: null, items: null);
+        var results = new List<ValidationResult>();
+
+        var isValid = Validator.TryValidateObject(studentUpdateDto, context, results, true);
+        if (!isValid)
+            return BadRequest();
+
 
         var student = await _studentRepo.GetStudentById(id);
         if (student == null)

@@ -14,7 +14,7 @@ namespace StudentsApi.Data
 
         public async Task CreateStudent(Student student)
         {
-            if(student == null)
+            if (student == null)
             {
                 throw new ArgumentNullException(nameof(student));
             }
@@ -24,7 +24,7 @@ namespace StudentsApi.Data
 
         public void DeleteStudent(Student student)
         {
-            if(student == null)
+            if (student == null)
             {
                 throw new ArgumentNullException(nameof(student));
             }
@@ -41,11 +41,11 @@ namespace StudentsApi.Data
         {
             return await _context.Students.FirstOrDefaultAsync(c => c.RA == ra);
         }
-        
+
         public async Task<IEnumerable<Student>> GetStudentByValue(string value)
         {
-            return await _context.Students.Where(p => 
-                p.CPF!.ToLower().Contains(value) || 
+            return await _context.Students.Where(p =>
+                p.CPF!.ToLower().Contains(value) ||
                 p.Email!.ToLower().Contains(value) ||
                 p.Nome!.ToLower().Contains(value) ||
                 p.RA!.ToLower().Contains(value)

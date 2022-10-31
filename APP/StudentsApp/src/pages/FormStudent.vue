@@ -63,13 +63,13 @@
 
 <script>
 import { defineComponent, ref, onMounted } from 'vue'
-import postsService from 'src/services/posts'
+import postsService from 'src/services/students'
 import { useQuasar } from 'quasar'
 import { useRouter, useRoute } from 'vue-router'
 export default defineComponent({
   name: 'FormPost',
   setup () {
-    const { post, getById, update } = postsService()
+    const { student, getById, update } = postsService()
     const $q = useQuasar()
     const router = useRouter()
     const route = useRoute()
@@ -82,11 +82,11 @@ export default defineComponent({
 
     onMounted(async () => {
       if (edit) {
-        getPost(route.params.id)
+        getStudent(route.params.id)
       }
     })
 
-    const getPost = async (id) => {
+    const getStudent = async (id) => {
       try {
         const response = await getById(id)
         form.value = response
@@ -100,9 +100,9 @@ export default defineComponent({
         if (form.value.id) {
           await update(form.value)
         } else {
-          await post(form.value)
+          await student(form.value)
         }
-        $q.notify({ message: 'Post salvo com sucesso!', icon: 'check', color: 'positive' })
+        $q.notify({ message: 'Estudante salvo com sucesso!', icon: 'check', color: 'positive' })
         router.push({ name: 'home' })
       } catch (error) {
         console.error(error)
