@@ -102,7 +102,6 @@ export default defineComponent({
         } else {
           await student(form.value)
         }
-        $q.notify({ message: 'Estudante salvo com sucesso!', icon: 'check', color: 'positive' })
         router.push({ name: 'home' })
       } catch (error) {
         console.error(error)

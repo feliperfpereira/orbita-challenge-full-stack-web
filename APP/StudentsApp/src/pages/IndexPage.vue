@@ -71,7 +71,7 @@ export default defineComponent({
         if (value)
           data = await searchByValue(value)
         else {
-          debugger
+          
           data = await list()
         }
 
@@ -91,11 +91,9 @@ export default defineComponent({
           persistent: true
         }).onOk(async () => {
           await remove(id)
-          $q.notify({ message: 'Apagado com sucesso', icon: 'check', color: 'positive' })
           await getStudents()
         })
       } catch (error) {
-        $q.notify({ message: 'Erro ao apagar Aluno', icon: 'times', color: 'negative' })
       }
     }
 
